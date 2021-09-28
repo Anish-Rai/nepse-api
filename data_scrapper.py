@@ -138,6 +138,17 @@ def loser_gainer():
 
     return json.dumps(final)
 
+
+def market_status():
+    response = requests.get('https://www.nepalipaisa.com/')
+    soup = BeautifulSoup(response.text, 'lxml')
+    status = soup.find('div', id='marketStatus').text
+    return status
+
+
+
+
+
 '''def closing_price():
     head = ['Company Name','No. Of Transaction', 'Max Price', 'Min Price', 'Closing Price', 'Traded Shares','Amount','Previous Closing', 'Difference Rs.']
     body = []

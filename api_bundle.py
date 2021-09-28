@@ -31,6 +31,12 @@ def today_price():
     return fetch.today_price()
 
 
+#Market Status
+@app.route('/market_status')
+def market_status():
+    return fetch.market_status()
+
+
 @app.route('/loser_gainer')
 def loser_gainer():
     return fetch.loser_gainer()
