@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 import data_scrapper as fetch
 
-
 app = Flask(__name__)
 
 ####### Home page url
@@ -13,19 +12,7 @@ def home():
 ####### Nepse and Sensitive api Index url
 @app.route('/index')
 def index():
-    return jsonify(fetch.nepseIndex(), fetch.sensitiveIndex())
-
-
-############# Nepse api url
-@app.route('/index/nepse')
-def nepse_index():
-    return jsonify(fetch.nepseIndex())
-
-
-# Sensitive api url
-@app.route('/index/sensitive')
-def sensitive_index():
-    return jsonify(fetch.sensitiveIndex())
+    return fetch.indices()
 
 
 # Live data
@@ -34,9 +21,30 @@ def live_data():
     return fetch.live_data()
 
 #Live data of individual company
-@app.route('/company_details/<string:name>')
+@app.route('/company/<string:name>')
 def company_detail(name):
     return fetch.get_company_detail(name)
 
+#Closing prices of Nepse Listed Companies
+@app.route('/today_price')
+def today_price():
+    return fetch.today_price()
+
+
+@app.route('/loser_gainer')
+def loser_gainer():
+    return fetch.loser_gainer()
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+'''############# Nepse api url
+@app.route('/index/nepse')
+def nepse_index():
+    return jsonify(fetch.nepseIndex())
+
+
+# Sensitive api url
+@app.route('/index/sensitive')
+def sensitive_index():
+    return jsonify(fetch.sensitiveIndex())'''
