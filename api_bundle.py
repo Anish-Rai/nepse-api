@@ -38,8 +38,10 @@ def market_status():
 
 
 @app.route('/loser_gainer')
-def loser_gainer():
-    return fetch.loser_gainer()
+def gainer_loser():
+    return fetch.gainer_loser()
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -49,8 +51,8 @@ if __name__ == '__main__':
 def nepse_index():
     return jsonify(fetch.nepseIndex())
 
-
-# Sensitive api url
+'''
+'''# Sensitive api url
 @app.route('/index/sensitive')
 def sensitive_index():
     return jsonify(fetch.sensitiveIndex())'''

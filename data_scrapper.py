@@ -78,7 +78,8 @@ def get_company_detail(name):
     final_detail = company_name+new_list[0:13]
 
     company_detail = dict(zip(final_title,final_detail))
-    return (json.dumps(company_detail))
+    ll = json.dumps(company_detail)
+    return json.loads(ll)
 
 
 
@@ -111,8 +112,8 @@ def today_price():
 
 
 #Top Gainer and Loser
-def loser_gainer():
-    final = {}
+def gainer_loser():
+    new_list =[]
     indexs = ['losers', 'gainers']
     url = 'https://nepalstockinfo.com/'
     urls = [url + index for index in indexs]
@@ -120,24 +121,14 @@ def loser_gainer():
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'lxml')
         data = soup.find('tbody').find_all('tr')[2:17]
-        title = ['symbol', 'LTP', '% change']
+        title = ['symbol', 'LTP', '% change','status']
         date = soup.find('td', colspan=3).text.strip()[5:]
         body = []
         for d in data:
             body.append(d.text.strip().split(' '))
-        body = [b  for b in body]
-        df = pd.DataFrame(data=body, columns=title, )
-        json_data = df.to_dict(orient='records')
-        if i == 0:
-            loser = json_data
-        else:
-            gainer = json_data
-    final['date'] = date
-    final['losers'] = loser
-    final['gainers'] = gainer
-
-    return json.dumps(final)
-
+        new_list += [b+[indexs[i]]for b in body]
+    df = pd.DataFrame(data=new_list, columns=title, )
+    return df.to_json(orient='records')
 
 def market_status():
     response = requests.get('https://www.nepalipaisa.com/')
@@ -184,8 +175,7 @@ def nepseIndex():
 '''
 
 ###### Sensitive Index Data Fetcher
-'''
-def sensitiveIndex():
+'''def sensitiveIndex():
     nepseurl = requests.get('http://www.nepalstock.com/')
     soup = BeautifulSoup(nepseurl.text, 'lxml')
     title = soup.find_all('div', class_="title")[1].text.strip().upper()
@@ -194,8 +184,7 @@ def sensitiveIndex():
     percent_change = soup.find_all('div', class_="percent-change")[1].text.strip()
     dict = {'title':title, 'current_index': current_index, 'point_change': point_change, 'percentage_change': percent_change}
     sensitiveinfo = json.loads(json.dumps(dict, sort_keys=False))
-    return sensitiveinfo
-'''
+    return json.sensitiveinfo'''
 
 '''
 def fetch_index():
@@ -204,3 +193,29 @@ def fetch_index():
     market_status = soup.find('div',class_="container red-text market-status").text.strip()
     return sensitiveIndex(), nepseIndex()
 '''
+'''def loser_gainer():
+    final = {}
+    indexs = ['losers', 'gainers']
+    url = 'https://nepalstockinfo.com/'
+    urls = [url + index for index in indexs]
+    for i, url in enumerate(urls):
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'lxml')
+        data = soup.find('tbody').find_all('tr')[2:17]
+        title = ['symbol', 'LTP', '% change']
+        date = soup.find('td', colspan=3).text.strip()[5:]
+        body = []
+        for d in data:
+            body.append(d.text.strip().split(' '))
+        body = [b  for b in body]
+        df = pd.DataFrame(data=body, columns=title, )
+        json_data = df.to_dict(orient='records')
+        if i == 0:
+            loser = json_data
+        else:
+            gainer = json_data
+    final['date'] = date
+    final['losers'] = loser
+    final['gainers'] = gainer
+
+    return json.dumps(final)'''
