@@ -90,6 +90,7 @@ def today_price():
     date = soup.find('input', id='fromdate').attrs['value']
     data = soup.find('tbody')
     titles = ['name', 'symbol', 'open', 'high', 'low', 'close', 'volume', 'previous close', '% difference']
+    first_item = ['Name','Symbol','Open','High','Low','Close', 'Volume','Previous CLose', '% Difference']
     body = []
     data_list = []
     cname = []
@@ -107,6 +108,7 @@ def today_price():
     data = [data_list[x:x + 8] for x in range(0, len(data_list), 8)]
     for i, d in enumerate(data):
         d.insert(0, cname[i])
+    data = [first_item] + data
     df = pd.DataFrame(data=data, columns=titles)
     return df.to_json(orient='records')
 

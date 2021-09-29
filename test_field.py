@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+
+
 url = requests.get('https://www.sharesansar.com/today-share-price')
 soup = BeautifulSoup(url.text, 'lxml')
 date = soup.find('input', id='fromdate').attrs['value']
@@ -24,4 +26,7 @@ for blist in body_lists:
 data = [data_list[x:x + 8] for x in range(0, len(data_list), 8)]
 for i, d in enumerate(data):
     d.insert(0, cname[i])
-df = pd.DataFrame(data=data, columns=titles)
+data = [titles]+ data
+for d in data:
+    print(d)
+
