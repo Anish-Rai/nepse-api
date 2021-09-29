@@ -42,6 +42,11 @@ def gainer_loser():
     return fetch.gainer_loser()
 
 
+@app.route('/sub_indices')
+def sub_indices():
+    return fetch.sub_indices()
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
